@@ -1,0 +1,32 @@
+# Core Django and REST Framework
+django==4.2.11  # Django framework
+djangorestframework==3.14.0  # For building RESTful APIs
+
+# Database
+psycopg2-binary==2.9.9  # PostgreSQL adapter for Django
+
+# CORS Handling (for React frontend communication)
+django-cors-headers==4.3.1
+
+# Utilities for running subprocesses (e.g., Nmap, Nikto)
+# subprocess is part of Python's standard library, so no need to install separately
+
+# Optional: For VirusTotal API integration
+requests==2.31.0  # HTTP requests for API calls (e.g., VirusTotal)
+
+# Optional: For OWASP ZAP API integration
+python-owasp-zap-v2.4==0.0.16  # Python client for OWASP ZAP API
+
+# Optional: For SQLMap automation (if you want to wrap SQLMap in Python)
+sqlmap==1.8  # SQLMap Python package (requires manual SQLMap installation too)
+
+# Development tools
+python-decouple==3.8  # For managing environment variables (optional but recommended)
+
+asgiref
+
+djangorestframework-simplejwt
+PyJWT
+pytz
+sqlparse
+python-dotenv
