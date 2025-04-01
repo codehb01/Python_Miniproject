@@ -69,3 +69,60 @@ function Home() {
 }
 
 export default Home;
+
+
+// import { useState, useEffect } from "react";
+// import scanner from "../scanner";
+// import ScanResult from "../components/ScanResult";
+// import "../styles/Home.css";
+
+// function Home() {
+//   const [scans, setScans] = useState([]);
+//   const [url, setUrl] = useState("");
+
+//   useEffect(() => {
+//     getScans();
+//   }, []);
+
+//   const getScans = () => {
+//     scanner
+//       .get("/scanner/scans/")
+//       .then((response) => setScans(response.data))
+//       .catch((error) => console.error("Error fetching scans:", error));
+//   };
+
+//   const handleScan = () => {
+//     if (!url) {
+//       alert("Please enter a URL.");
+//       return;
+//     }
+
+//     scanner
+//       .post("/scanner/scans/", { url })
+//       .then(() => {
+//         setUrl("");
+//         getScans();
+//       })
+//       .catch((error) => console.error("Error scanning:", error));
+//   };
+
+//   return (
+//     <div className="home">
+//       <h1>Website Vulnerability Scanner</h1>
+//       <input
+//         type="text"
+//         value={url}
+//         onChange={(e) => setUrl(e.target.value)}
+//         placeholder="Enter website URL"
+//       />
+//       <button onClick={handleScan}>Scan</button>
+//       <div className="scan-results">
+//         {scans.map((scan) => (
+//           <ScanResult key={scan.id} scan={scan} />
+//         ))}
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Home;
