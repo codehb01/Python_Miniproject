@@ -1,0 +1,3 @@
+[console_scripts]
+wapiti = wapitiCore.main.wapiti:wapiti_asyncio_wrapper
+wapiti-getcookie = wapitiCore.main.getcookie:getcookie_asyncio_wrapper

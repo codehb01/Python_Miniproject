@@ -1,0 +1,69 @@
+Metadata-Version: 2.1
+Name: httpx-ntlm
+Version: 1.4.0
+Summary: This package allows for HTTP NTLM authentication using the HTTPX library.
+Home-page: https://github.com/ulodciv/httpx-ntlm
+Author: Ludovic VAUGEOIS
+Author-email: ulodciv@gmail.com
+License: ISC
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: ISC License (ISCL)
+Provides: httpx_ntlm
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: httpx >=0.24
+Requires-Dist: pyspnego >=0.3
+
+httpx-ntlm
+==========
+
+This package allows for HTTP NTLM authentication using the HTTPX library. It is an
+adaptation of https://github.com/requests/requests-ntlm.
+
+Usage
+-----
+
+``HttpNtlmAuth`` extends HTTPX ``Auth`` base class, so usage is simple:
+
+.. code:: python
+
+    import httpx
+    from httpx_ntlm import HttpNtlmAuth
+
+    httpx.get("http://ntlm_protected_site.com",auth=HttpNtlmAuth('domain\\username','password'))
+
+``HttpNtlmAuth`` can be used in conjunction with a ``Client`` in order to
+make use of connection pooling. Since NTLM authenticates connections,
+this is more efficient. Otherwise, each request will go through a new
+NTLM challenge-response.
+
+.. code:: python
+
+    import httpx
+    from httpx_ntlm import HttpNtlmAuth
+
+    client = httpx.Client(auth=HttpNtlmAuth('domain\\username','password'))
+    client.get('http://ntlm_protected_site.com')
+
+Installation
+------------
+
+    pip install httpx-ntlm
+
+Requirements
+------------
+
+- httpx_
+- pyspnego_
+
+.. _httpx: https://github.com/encode/httpx
+.. _pyspnego: https://github.com/jborean93/pyspnego

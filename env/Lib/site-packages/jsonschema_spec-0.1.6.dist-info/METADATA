@@ -1,0 +1,137 @@
+Metadata-Version: 2.1
+Name: jsonschema-spec
+Version: 0.1.6
+Summary: JSONSchema Spec with object-oriented paths
+Home-page: https://github.com/p1c2u/jsonschema-spec
+License: Apache-2.0
+Keywords: jsonschema,swagger,spec
+Author: Artur Maciag
+Author-email: maciag.artur@gmail.com
+Requires-Python: >=3.7.0,<4.0.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: PyYAML (>=5.1)
+Requires-Dist: jsonschema (>=4.0.0,<4.18.0)
+Requires-Dist: pathable (>=0.4.1,<0.5.0)
+Requires-Dist: requests (>=2.31.0,<3.0.0)
+Requires-Dist: typing-extensions (<4.6.0) ; python_version < "3.8"
+Project-URL: Repository, https://github.com/p1c2u/jsonschema-spec
+Description-Content-Type: text/x-rst
+
+***************
+JSONSchema Spec
+***************
+
+.. image:: https://img.shields.io/pypi/v/jsonschema-spec.svg
+     :target: https://pypi.python.org/pypi/jsonschema-spec
+.. image:: https://travis-ci.org/p1c2u/jsonschema-spec.svg?branch=master
+     :target: https://travis-ci.org/p1c2u/jsonschema-spec
+.. image:: https://img.shields.io/codecov/c/github/p1c2u/jsonschema-spec/master.svg?style=flat
+     :target: https://codecov.io/github/p1c2u/jsonschema-spec?branch=master
+.. image:: https://img.shields.io/pypi/pyversions/jsonschema-spec.svg
+     :target: https://pypi.python.org/pypi/jsonschema-spec
+.. image:: https://img.shields.io/pypi/format/jsonschema-spec.svg
+     :target: https://pypi.python.org/pypi/jsonschema-spec
+.. image:: https://img.shields.io/pypi/status/jsonschema-spec.svg
+     :target: https://pypi.python.org/pypi/jsonschema-spec
+
+About
+#####
+
+JSONSchema Spec with object-oriented paths
+
+Key features
+############
+
+* Traverse elements like paths
+* Access spec on demand with separate dereferencing accessor layer
+
+Installation
+############
+
+.. code-block:: console
+
+   pip install jsonschema-spec
+
+Alternatively you can download the code and install from the repository:
+
+.. code-block:: console
+
+   pip install -e git+https://github.com/p1c2u/jsonschema-spec.git#egg=jsonschema_spec
+
+
+Usage
+#####
+
+.. code-block:: python
+
+   >>> from jsonschema_spec import Spec
+   
+   >>> d = {
+   ...     "properties": {
+   ...        "info": {
+   ...            "$ref": "#/$defs/Info",
+   ...        },
+   ...     },
+   ...     "$defs": {
+   ...         "Info": {
+   ...             "properties": {
+   ...                 "title": {
+   ...                     "$ref": "http://example.com",
+   ...                 },
+   ...                 "version": {
+   ...                     "type": "string",
+   ...                     "default": "1.0",
+   ...                 },
+   ...             },
+   ...         },
+   ...     },
+   ... }
+   
+   >>> spec = Spec.from_dict(d)
+   
+   >>> # Stat keys
+   >>> "properties" in spec
+   True
+   
+   >>> # Concatenate paths with /
+   >>> info_spec = spec / "properties" / "info"
+   
+   >>> # Stat keys with implicit dereferencing
+   >>> "properties" in info_spec
+   True
+   
+   >>> # Concatenate paths with implicit dereferencing
+   >>> version_spec = info_spec / "properties" / "version"
+   
+   >>> # Open content with implicit dereferencing
+   >>> with version_spec.open() as version:
+   ...     print(version)
+   {'type': 'string', 'default': '1.0'}
+
+
+Related projects
+################
+
+* `openapi-core <https://github.com/p1c2u/openapi-core>`__
+   Python library that adds client-side and server-side support for the OpenAPI.
+* `openapi-spec-validator <https://github.com/p1c2u/openapi-spec-validator>`__
+   Python library that validates OpenAPI Specs against the OpenAPI 2.0 (aka Swagger) and OpenAPI 3.0 specification
+* `openapi-schema-validator <https://github.com/p1c2u/openapi-schema-validator>`__
+   Python library that validates schema against the OpenAPI Schema Specification v3.0.
+
+License
+#######
+
+Copyright (c) 2017-2022, Artur Maciag, All rights reserved. Apache-2.0
+

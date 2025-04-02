@@ -233,3 +233,5 @@ class ScanResultDetail(generics.RetrieveAPIView):
     def get_queryset(self):
         """Get scan results for the current user only"""
         return ScanResult.objects.filter(user=self.request.user)
+
+

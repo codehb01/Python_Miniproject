@@ -1,0 +1,2 @@
+class OpenAPISpecValidatorError(Exception):
+    pass

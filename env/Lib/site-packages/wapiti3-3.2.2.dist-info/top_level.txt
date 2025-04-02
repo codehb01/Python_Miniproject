@@ -1,0 +1,6 @@
+bin
+dist
+doc
+endpoint
+wapiti3
+wapitiCore
