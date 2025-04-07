@@ -2,54 +2,22 @@ import React from "react";
 
 function ScanResult({ scan }) {
   return (
-    <div className="border border-gray-300 p-4 rounded-md shadow-sm">
-      <h3 className="font-semibold text-lg">{scan.url} - {scan.tool_name}</h3>
-      <p className="text-sm text-gray-500">
-        <strong>Scanned on:</strong> {new Date(scan.created_at).toLocaleString()}
+    <div className="bg-white/5 border border-gray-700 backdrop-blur-sm rounded-2xl p-5 shadow-lg shadow-cyan-500/10 transition hover:shadow-cyan-500/20">
+      <h3 className="text-xl font-semibold text-cyan-400 break-all">
+        {scan.url}
+        <span className="text-sm text-white/60 ml-2">({scan.tool_name})</span>
+      </h3>
+
+      <p className="text-sm text-gray-400 mt-1">
+        <strong className="text-white">Scanned on:</strong>{" "}
+        {new Date(scan.created_at).toLocaleString()}
       </p>
-      <pre className="bg-gray-100 p-2 rounded-md mt-2 text-sm">{scan.result}</pre>
+
+      <pre className="mt-4 text-sm text-green-300 bg-black/60 p-4 rounded-lg overflow-auto whitespace-pre-wrap border border-cyan-700">
+        {scan.result}
+      </pre>
     </div>
   );
 }
 
 export default ScanResult;
-
-
-
-// import React from "react";
-
-// function ScanResult({ scan }) {
-//   return (
-//     <div className="scan-result">
-//       <h3>
-//         {scan.url} - {scan.tool_name}
-//       </h3>
-//       <p>
-//         <strong>Scanned on:</strong>{" "}
-//         {new Date(scan.created_at).toLocaleString()}
-//       </p>
-//       <pre>{scan.result}</pre>
-//     </div>
-//   );
-// }
-
-// export default ScanResult;
-
-// // import React from "react";
-
-// // function ScanResult({ scan }) {
-// //   return (
-// //     <div className="scan-result">
-// //       <h3>
-// //         {scan.tool_name} Scan for {scan.url}
-// //       </h3>
-// //       <p>
-// //         <strong>Result:</strong>
-// //       </p>
-// //       <pre>{scan.result}</pre>
-// //       <small>Scanned on: {new Date(scan.created_at).toLocaleString()}</small>
-// //     </div>
-// //   );
-// // }
-
-// // export default ScanResult;

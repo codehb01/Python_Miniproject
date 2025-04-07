@@ -1,10 +1,12 @@
 
+// export default Form;
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import scanner from "../scanner";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import LoadingIndicator from "./LoadingIndicator";
+import { FaUser, FaLock, FaEnvelope } from "react-icons/fa";
 
 function Form({ route, method }) {
   const [username, setUsername] = useState("");
@@ -30,7 +32,7 @@ function Form({ route, method }) {
       if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-        navigate("/");
+        navigate("/home");
       } else {
         alert("Registration successful! Please log in.");
         navigate("/login");
@@ -47,75 +49,84 @@ function Form({ route, method }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black text-white px-4 pt-16 relative overflow-hidden">
-      {/* Background Animation */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle,#8E24AA,#2196F3)] opacity-50 animate-gradient" />
+    <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Blurred Neon Circles */}
+      <div className="absolute w-72 h-72 bg-cyan-500 opacity-10 blur-3xl rounded-full top-10 left-10" />
+      <div className="absolute w-96 h-96 bg-blue-500 opacity-10 blur-3xl rounded-full bottom-10 right-10" />
 
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-md shadow-xl rounded-lg p-8 relative z-10">
-        <h2 className="text-2xl font-bold text-center text-white animate-fadeInDown">
+      <motion.div
+        initial={{ y: 60, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="w-full max-w-md bg-white/5 backdrop-blur-sm border border-gray-700 shadow-cyan-500/10 hover:shadow-cyan-500/30 transition-shadow rounded-3xl p-10"
+      >
+        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r from-cyan-500 to-blue-500 text-transparent bg-clip-text tracking-wide mb-8 drop-shadow-lg">
           {name}
         </h2>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <motion.input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="w-full px-4 py-2 border rounded-lg bg-gray-100/80 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none"
-          />
-
-          {method === "register" && (
-            <motion.input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Username */}
+          <div className="relative">
+            <FaUser className="absolute top-3 left-3 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
-              initial={{ x: -50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
-              className="w-full px-4 py-2 border rounded-lg bg-gray-100/80 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full pl-10 pr-4 py-2 bg-white/10 border border-gray-700 text-white rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white/20 transition duration-200"
             />
+          </div>
+
+          {/* Email */}
+          {method === "register" && (
+            <div className="relative">
+              <FaEnvelope className="absolute top-3 left-3 text-gray-400" />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full pl-10 pr-4 py-2 bg-white/10 border border-gray-700 text-white rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white/20 transition duration-200"
+              />
+            </div>
           )}
 
-          <motion.input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
-            className="w-full px-4 py-2 border rounded-lg bg-gray-100/80 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none"
-          />
+          {/* Password */}
+          <div className="relative">
+            <FaLock className="absolute top-3 left-3 text-gray-400" />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full pl-10 pr-4 py-2 bg-white/10 border border-gray-700 text-white rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white/20 transition duration-200"
+            />
+          </div>
 
           {loading && <LoadingIndicator />}
 
+          {/* Submit Button */}
           <motion.button
             type="submit"
             disabled={loading}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
-            whileHover={{ scale: 1.05 }}
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-semibold rounded-xl transition duration-200 disabled:opacity-50"
           >
             {loading ? "Processing..." : name}
           </motion.button>
         </form>
 
-        <p className="mt-4 text-center text-gray-200 animate-fadeInUp">
+        {/* Footer */}
+        <p className="text-center text-gray-400 mt-6 text-sm">
           {method === "login"
-            ? "Don't have an account? "
-            : "Already have an account? "}
+            ? "Don't have an account?"
+            : "Already have an account?"}{" "}
           <span
-            className="text-blue-400 cursor-pointer hover:underline"
+            className="text-cyan-400 cursor-pointer hover:underline"
             onClick={() =>
               navigate(method === "login" ? "/register" : "/login")
             }
@@ -123,176 +134,9 @@ function Form({ route, method }) {
             {method === "login" ? "Sign up" : "Login"}
           </span>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }
 
 export default Form;
-
-
-// import { useState } from "react";
-// import scanner from "../scanner";
-// import { useNavigate } from "react-router-dom";
-// import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-// import "../styles/Form.css";
-// import LoadingIndicator from "./LoadingIndicator"; // Assuming this exists
-
-// function Form({ route, method }) {
-//   const [username, setUsername] = useState("");
-//   const [email, setEmail] = useState(""); // Added for registration
-//   const [password, setPassword] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const navigate = useNavigate();
-
-//   const name = method === "login" ? "Login" : "Register";
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-
-//     try {
-//       if (method === "login") {
-//         // Login: POST to /api/token/
-//         const res = await scanner.post(route, { username, password });
-//         localStorage.setItem(ACCESS_TOKEN, res.data.access);
-//         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-//         navigate("/");
-//       } else {
-//         // Register: POST to /api/register/
-//         await scanner.post(route, { username, email, password });
-//         alert("Registration successful! Please log in.");
-//         navigate("/login");
-//       }
-//     } catch (error) {
-//       alert(`Error during ${name.toLowerCase()}: ${error}`);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit} className="form-container">
-//       <h1>{name}</h1>
-//       <input
-//         className="form-input"
-//         type="text"
-//         value={username}
-//         onChange={(e) => setUsername(e.target.value)}
-//         placeholder="Username"
-//         required
-//       />
-//       {method === "register" && (
-//         <input
-//           className="form-input"
-//           type="email"
-//           value={email}
-//           onChange={(e) => setEmail(e.target.value)}
-//           placeholder="Email"
-//           required
-//         />
-//       )}
-//       <input
-//         className="form-input"
-//         type="password"
-//         value={password}
-//         onChange={(e) => setPassword(e.target.value)}
-//         placeholder="Password"
-//         required
-//       />
-//       {loading && <LoadingIndicator />}
-//       <button className="form-button" type="submit" disabled={loading}>
-//         {loading ? "Processing..." : name}
-//       </button>
-//     </form>
-//   );
-// }
-
-// export default Form;
-
-// // Form.jsx
-// import { useState } from "react";
-// import scanner from "../scanner";
-// import { useNavigate } from "react-router-dom";
-// import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-// import LoadingIndicator from "./LoadingIndicator";
-
-// function Form({ route, method }) {
-//   const [username, setUsername] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const navigate = useNavigate();
-
-//   const name = method === "login" ? "Login" : "Register";
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-
-//     try {
-//       const requestData = method === "login"
-//         ? { username, password }
-//         : { username, email, password };
-
-//       const res = await scanner.post(route, requestData);
-
-//       if (method === "login") {
-//         localStorage.setItem(ACCESS_TOKEN, res.data.access);
-//         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-//         navigate("/");
-//       } else {
-//         alert("Registration successful! Please log in.");
-//         navigate("/login");
-//       }
-//     } catch (error) {
-//       alert(`Error during ${name.toLowerCase()}: ${error.response?.data?.detail || error.message}`);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-//       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-80">
-//         <h1 className="text-2xl font-semibold text-center mb-4">{name}</h1>
-//         <input
-//           className="w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-//           type="text"
-//           value={username}
-//           onChange={(e) => setUsername(e.target.value)}
-//           placeholder="Username"
-//           required
-//         />
-//         {method === "register" && (
-//           <input
-//             className="w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-//             type="email"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//             placeholder="Email"
-//             required
-//           />
-//         )}
-//         <input
-//           className="w-full p-2 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
-//           type="password"
-//           value={password}
-//           onChange={(e) => setPassword(e.target.value)}
-//           placeholder="Password"
-//           required
-//         />
-//         {loading && <LoadingIndicator />}
-//         <button
-//           className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 disabled:opacity-50"
-//           type="submit"
-//           disabled={loading}
-//         >
-//           {loading ? "Processing..." : name}
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }
-
-// export default Form;
