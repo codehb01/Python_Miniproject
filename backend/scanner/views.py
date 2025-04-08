@@ -8,6 +8,20 @@ from .serializers import UserSerializer, ScanResultSerializer
 from .models import ScanResult
 from .utils import run_nmap_scan, run_sqlmap_scan, run_wapiti_scan
 
+
+
+from django.http import FileResponse
+import os
+
+def serve_wapiti_report(request, path):
+    file_path = os.path.join("C:\\Users\\nandu\\.wapiti\\generated_report", path)
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path, "rb"), as_attachment=True)
+    return Response({"error": "Report not found"}, status=404)
+
+
+
+
 class CreateUserView(generics.CreateAPIView):
     """
     API endpoint for creating a new user

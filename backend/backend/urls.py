@@ -26,5 +26,6 @@ urlpatterns = [
     path("scanner/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("scanner-auth/", include("rest_framework.urls")),
     path('scanner/', include('scanner.urls')),
+    
 ]
 
