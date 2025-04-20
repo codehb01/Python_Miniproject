@@ -1,11 +1,16 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/NavBar"; // Updated from NavBar to match your latest code
+import Navbar from "../components/NavBar";
 import { motion } from "framer-motion";
-import { FaUser, FaEnvelope, FaShieldAlt } from "react-icons/fa";
-import scanner from "../scanner"; // Assuming scanner is your HTTP client
-import LoadingIndicator from "../components/LoadingIndicator"; // Assuming this exists based on Login/Register
+import {
+  FaUser,
+  FaEnvelope,
+  FaShieldAlt,
+  FaCalendarAlt,
+  FaSignInAlt,
+} from "react-icons/fa";
+import scanner from "../scanner";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -22,7 +27,7 @@ function Profile() {
 
     const fetchProfile = async () => {
       try {
-        const response = await scanner.get("/profile/", {
+        const response = await scanner.get("/scanner/profile/", {
           headers: { Authorization: `Token ${token}` },
         });
         setUser(response.data);
@@ -44,7 +49,7 @@ function Profile() {
     fetchProfile();
   }, [token, navigate]);
 
-  if (loading) return <LoadingIndicator />; // Use the shared loading component
+  if (loading) return <LoadingIndicator />;
   if (error)
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
@@ -90,11 +95,11 @@ function Profile() {
                 </h2>
                 <p className="flex items-center text-gray-300">
                   <FaEnvelope className="mr-2 text-cyan-400" />
-                  {user.email}
+                  {user.email || "Not provided"}
                 </p>
                 <p className="flex items-center text-sm text-gray-400">
                   <FaShieldAlt className="mr-2 text-cyan-400" />
-                  Role: {user.role || "User"}
+                  Role: {user.role || "Standard User"}
                 </p>
               </div>
             </div>
@@ -103,7 +108,8 @@ function Profile() {
                 Account Details
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-400">
-                <p>
+                <p className="flex items-center">
+                  <FaCalendarAlt className="mr-2 text-cyan-400" />
                   <strong>Joined:</strong>{" "}
                   {new Date(user.created_at).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -111,13 +117,16 @@ function Profile() {
                     day: "numeric",
                   })}
                 </p>
-                <p>
+                <p className="flex items-center">
+                  <FaSignInAlt className="mr-2 text-cyan-400" />
                   <strong>Last Login:</strong>{" "}
-                  {new Date(user.last_login).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {user.last_login
+                    ? new Date(user.last_login).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
+                    : "Never"}
                 </p>
               </div>
             </div>
