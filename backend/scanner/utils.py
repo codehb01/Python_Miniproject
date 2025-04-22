@@ -36,8 +36,7 @@ def run_sqlmap_scan(url, crawl_depth=2, use_forms=True):
         if use_forms:
             command.append("--forms")
 
-        # Optional: add `--output-dir` to save results
-        # command += ["--output-dir=output"]
+       
 
         # Run the command and capture both stdout and stderr
         result = subprocess.run(
@@ -84,17 +83,17 @@ def run_wapiti_scan(url):
 
 def run_virustotal_scan(url):
     try:
-        # Get API key from environment variable
+        
         api_key = os.getenv("VIRUS_TOTAL_API_KEY")
         if not api_key:
             return "Error: VIRUS_TOTAL_API_KEY environment variable not set. Please obtain an API key from https://www.virustotal.com/ and set it."
 
-        # Step 1: Submit URL for scanning
+        
         submit_url = "https://www.virustotal.com/api/v3/urls"
         headers = {"x-apikey": api_key}
         url_id = base64.urlsafe_b64encode(url.encode()).decode().strip("=")
         
-        # Submit the URL
+        
         submit_response = requests.post(submit_url, headers=headers, json={"url": url})
         submit_data = submit_response.json()
         logger.debug(f"Submit response: {submit_data}")  # Debug log
@@ -102,12 +101,12 @@ def run_virustotal_scan(url):
         if submit_response.status_code != 200:
             return f"Error: Failed to submit URL (Status: {submit_response.status_code}): {submit_data.get('error', {}).get('message', submit_response.text)}"
 
-        # Get the analysis ID from the submission response
+        
         analysis_id = submit_data.get("data", [{}])[0].get("id")
         if not analysis_id:
             return "Error: No analysis ID returned from VirusTotal submission."
 
-        # Step 2: Poll for the report
+        
         report_url = f"https://www.virustotal.com/api/v3/analyses/{analysis_id}"
         max_attempts = 10
         for attempt in range(max_attempts):
@@ -121,7 +120,7 @@ def run_virustotal_scan(url):
         else:
             return "Error: Analysis timed out after multiple attempts"
 
-        # Step 3: Parse the report
+        
         attributes = report_data.get("data", [{}])[0].get("attributes", {})
         stats = attributes.get("stats", {})
         positives = stats.get("malicious", 0)

@@ -67,7 +67,7 @@ function Home() {
 
         <div className="mt-10">
           <h2 className="text-2xl font-semibold mb-4 text-cyan-400">
-            Scan Results
+            Previous Scan Results
           </h2>
           {loading ? (
             <div className="space-y-4">
