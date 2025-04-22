@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { ACCESS_TOKEN } from "../constants";
 
 // Animation variant for fade-in-up effect
 const fadeInUp = {
@@ -12,6 +13,7 @@ const fadeInUp = {
 function LandingPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [animatedElements, setAnimatedElements] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -59,18 +61,31 @@ function LandingPage() {
     };
   }, []);
 
+  const handleGetStarted = () => {
+    const token = localStorage.getItem(ACCESS_TOKEN);
+    if (token) {
+      navigate("/home");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
-    <div className="bg-gradient-to-br from-gray-900 to-black text-white relative overflow-hidden">
-      <div className="fixed inset-0 bg-grid-pattern opacity-20 pointer-events-none"></div>
+    <div className="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white relative overflow-hidden">
+      {/* Dynamic Cybersecurity Background */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Cpath d=\'M0 0h100v100H0V0zm10 10h80v80H10V10z\' fill=\'none\' stroke=\'%233A5DFF\' stroke-width=\'1\' opacity=\'0.1\'/%3E%3Cline x1=\'0\' y1=\'0\' x2=\'100\' y2=\'100\' stroke=\'%233A5DFF\' stroke-width=\'0.5\' opacity=\'0.2\'/%3E%3Cline x1=\'100\' y1=\'0\' x2=\'0\' y2=\'100\' stroke=\'%236B21A8\' stroke-width=\'0.5\' opacity=\'0.2\'/%3E%3Canimatemotion dur=\'5s\' repeatCount=\'indefinite\'%3E%3Cmpath d=\'M0 50 Q 50 0 100 50 Q 50 100 0 50\'/%3E%3C/animatemotion%3E%3C/svg%3E')] bg-repeat opacity-50 animate-pulse-slow"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent 25%,rgba(58,93,255,0.05) 25%,rgba(58,93,255,0.05) 50%,transparent 50%,transparent 75%,rgba(107,33,168,0.05) 75%,rgba(107,33,168,0.05))] bg-[length:20px_20px] animate-scan-bg"></div>
+      </div>
 
       {/* Hero Section */}
       <section
         id="hero"
-        className="flex flex-col items-center justify-center h-screen relative"
+        className="flex flex-col items-center justify-center h-screen relative z-10"
       >
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-500 opacity-5 blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/3 right-1/3 w-48 h-48 rounded-full bg-cyan-400 opacity-5 blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/3 right-1/3 w-48 h-48 rounded-full bg-purple-600 opacity-5 blur-3xl animate-pulse"></div>
         </div>
 
         <div
@@ -79,7 +94,7 @@ function LandingPage() {
           } z-10 px-6 sm:px-4 text-center`}
         >
           <div className="flex items-center justify-center mb-6">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 transition-all hover:scale-110 hover:animate-glow">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20 transition-all hover:scale-110 hover:animate-glow">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-white"
@@ -97,72 +112,51 @@ function LandingPage() {
             </div>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl font-bold mb-4 tracking-tight text-shadow-lg animate-gradient-text">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-500">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-5xl sm:text-6xl font-bold mb-4 tracking-tight text-shadow-lg animate-gradient-text"
+          >
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
               ScanSecure
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="text-xl sm:text-xl text-gray-300 max-w-lg mx-auto mb-10 leading-relaxed">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl sm:text-xl text-gray-300 max-w-lg mx-auto mb-10 leading-relaxed"
+          >
             Advanced vulnerability scanning for the modern web. Detect threats
             before they become breaches.
-          </p>
+          </motion.p>
 
           <div className="flex space-x-4 justify-center">
-            {/* Enhanced "Get Started" Button */}
-            <motion.div
+            <motion.button
               initial={fadeInUp.initial}
               animate={fadeInUp.animate}
-              transition={{ delay: 0.4 }}
-              className="relative z-10"
+              transition={{ delay: 0.6 }}
+              onClick={handleGetStarted}
+              className="px-6 py-3 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow-lg shadow-blue-500/20 transition-all hover:scale-105 hover:shadow-blue-500/50 active:scale-95 animate-bounce-once hover:animate-glow"
             >
-              <div className="flex items-center justify-center">
-                <div className="relative group">
-                  <Link
-                    to="/login"
-                    className="relative inline-block p-px font-semibold leading-6 text-white bg-gray-800 shadow-2xl cursor-pointer rounded-xl shadow-zinc-900 transition-transform duration-300 ease-in-out hover:scale-120 active:scale-100"
-                  >
-                    <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 p-[4px] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                    <span className="relative z-10 block px-8 py-3 rounded-xl bg-gray-950">
-                      <div className="relative z-10 flex items-center space-x-2">
-                        <span className="transition-all duration-500 group-hover:translate-x-1">
-                          Let's get started
-                        </span>
-                        <svg
-                          className="w-8 h-8 transition-transform duration-500 group-hover:translate-x-1"
-                          data-slot="icon"
-                          aria-hidden="true"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            clipRule="evenodd"
-                            d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-                            fillRule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                    </span>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
+              Let's get started
+            </motion.button>
 
             <a
               href="#services"
-              className="nav-link px-8 py-3 bg-white/10 dark:bg-gray-900/60 backdrop-blur-md border border-gray-700 rounded-md font-medium hover:border-cyan-500 hover:bg-gray-800/80 transition-all duration-300 focus:ring-2 focus:ring-cyan-500 delay-300"
+              className="nav-link px-6 py-3 text-sm font-medium bg-gradient-to-r from-gray-700 to-gray-800 text-white rounded-lg shadow-md hover:from-gray-600 hover:to-gray-700 transition-all duration-300 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Learn More
             </a>
           </div>
         </div>
 
-        {/* Down Arrow Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 text-cyan-500"
+            className="h-8 w-8 text-blue-500"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -178,7 +172,7 @@ function LandingPage() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-24 relative">
+      <section id="services" className="py-24 relative z-10">
         <div className="max-w-6xl mx-auto px-4">
           <div
             id="services-header"
@@ -188,30 +182,38 @@ function LandingPage() {
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-500 animate-gradient-text">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl sm:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 animate-gradient-text"
+            >
               Our Services
-            </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-gray-300 max-w-2xl mx-auto"
+            >
               Advanced security solutions designed to protect your digital
               assets and infrastructure
-            </p>
+            </motion.p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Service 1 */}
-            <div
+            {/* Service 1: Vulnerability Scanning */}
+            <motion.div
               id="service-1"
-              className={`bg-white/10 dark:bg-gray-900/70 backdrop-blur-md rounded-lg p-6 border border-gray-800 hover:border-cyan-500/30 transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/30 group animate-on-scroll ${
-                animatedElements["service-1"]
-                  ? "animate-fade-in-up"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: "0ms" }}
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={{ delay: 0.2 }}
+              className="bg-gradient-to-br from-gray-800/30 to-gray-900/20 backdrop-blur-md p-6 rounded-lg border border-gray-700/50 shadow-md hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 animate-on-scroll group"
             >
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-4 group-hover:border-2 group-hover:border-gradient-to-r group-hover:from-cyan-500 group-hover:to-blue-500 transition-all">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-cyan-400"
+                  className="h-8 w-8 text-blue-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -220,33 +222,31 @@ function LandingPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 12l2 2 4-4"
+                    d="M9 12l2 2 4-4m0 0l4 4m-4-4v12"
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-shadow-sm">
+              <h3 className="text-2xl font-semibold mb-2 text-blue-200">
                 Vulnerability Scanning
               </h3>
-              <p className="text-gray-300 text-shadow-sm">
+              <p className="text-gray-300">
                 Identify security flaws and misconfigurations in your systems
                 before attackers do.
               </p>
-            </div>
+            </motion.div>
 
-            {/* Service 2 */}
-            <div
+            {/* Service 2: Penetration Testing */}
+            <motion.div
               id="service-2"
-              className={`bg-white/10 dark:bg-gray-900/70 backdrop-blur-md rounded-lg p-6 border border-gray-800 hover:border-cyan-500/30 transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/30 group animate-on-scroll ${
-                animatedElements["service-2"]
-                  ? "animate-fade-in-up"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: "150ms" }}
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={{ delay: 0.4 }}
+              className="bg-gradient-to-br from-gray-800/30 to-gray-900/20 backdrop-blur-md p-6 rounded-lg border border-gray-700/50 shadow-md hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 animate-on-scroll group"
             >
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-4 group-hover:border-2 group-hover:border-gradient-to-r group-hover:from-cyan-500 group-hover:to-blue-500 transition-all">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-cyan-400"
+                  className="h-8 w-8 text-purple-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -255,33 +255,31 @@ function LandingPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M13 16h-1v-4h-1m0-4h.01"
+                    d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-shadow-sm">
+              <h3 className="text-2xl font-semibold mb-2 text-purple-200">
                 Penetration Testing
               </h3>
-              <p className="text-gray-300 text-shadow-sm">
+              <p className="text-gray-300">
                 Simulated real-world attacks to uncover exploitable
                 vulnerabilities in your environment.
               </p>
-            </div>
+            </motion.div>
 
-            {/* Service 3 */}
-            <div
+            {/* Service 3: VirusTotal & Wapiti Integration */}
+            <motion.div
               id="service-3"
-              className={`bg-white/10 dark:bg-gray-900/70 backdrop-blur-md rounded-lg p-6 border border-gray-800 hover:border-cyan-500/30 transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/30 group animate-on-scroll ${
-                animatedElements["service-3"]
-                  ? "animate-fade-in-up"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: "300ms" }}
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={{ delay: 0.6 }}
+              className="bg-gradient-to-br from-gray-800/30 to-gray-900/20 backdrop-blur-md p-6 rounded-lg border border-gray-700/50 shadow-md hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 animate-on-scroll group"
             >
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-4 group-hover:border-2 group-hover:border-gradient-to-r group-hover:from-cyan-500 group-hover:to-blue-500 transition-all">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-cyan-400"
+                  className="h-8 w-8 text-blue-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -290,33 +288,31 @@ function LandingPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 17v-6h13v6"
+                    d="M9 12l2 2 4-4m0 0l4 4m-4-4v12"
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-shadow-sm">
-                VirusTotal API & Wapiti Integration
+              <h3 className="text-2xl font-semibold mb-2 text-blue-200">
+                VirusTotal & Wapiti Integration
               </h3>
-              <p className="text-gray-300 text-shadow-sm">
-                Provides reputation data and threat intelligence and allows you
-                to audit the security of your websites or web applications.
+              <p className="text-gray-300">
+                Provides reputation data and threat intelligence for your web
+                applications.
               </p>
-            </div>
+            </motion.div>
 
-            {/* Service 4 */}
-            <div
+            {/* Service 4: Real-Time Dashboard */}
+            <motion.div
               id="service-4"
-              className={`bg-white/10 dark:bg-gray-900/70 backdrop-blur-md rounded-lg p-6 border border-gray-800 hover:border-cyan-500/30 transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/30 group animate-on-scroll ${
-                animatedElements["service-4"]
-                  ? "animate-fade-in-up"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: "0ms" }}
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={{ delay: 0.8 }}
+              className="bg-gradient-to-br from-gray-800/30 to-gray-900/20 backdrop-blur-md p-6 rounded-lg border border-gray-700/50 shadow-md hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 animate-on-scroll group"
             >
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-4 group-hover:border-2 group-hover:border-gradient-to-r group-hover:from-cyan-500 group-hover:to-blue-500 transition-all">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-cyan-400"
+                  className="h-8 w-8 text-green-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -325,33 +321,36 @@ function LandingPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 12l2 2 4-4"
+                    d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-shadow-sm">
+              <h3 className="text-2xl font-semibold mb-2 text-blue-200">
                 Real-Time Dashboard
               </h3>
-              <p className="text-gray-300 text-shadow-sm">
-                A real-time dashboard presents an overview of vulnerabilities,
-                risk scores, real-time graphs and threat trends.
+              <p className="text-gray-300">
+                A real-time dashboard for vulnerability insights and trends.
               </p>
-            </div>
+            </motion.div>
 
-            {/* Service 5 */}
-            <div
+            {/* Service 5: Downloadable Reports */}
+            <motion.div
               id="service-5"
-              className={`bg-white/10 dark:bg-gray-900/70 backdrop-blur-md rounded-lg p-6 border border-gray-800 hover:border-cyan-500/30 transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/30 group animate-on-scroll ${
-                animatedElements["service-5"]
-                  ? "animate-fade-in-up"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: "150ms" }}
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={{ delay: 1.0 }}
+              className="bg-gradient-to-br from-gray-800/30 to-gray-900/20 backdrop-blur-md p-6 rounded-lg border border-gray-700/50 shadow-md hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 animate-on-scroll group"
             >
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-4 group-hover:border-2 group-hover:border-gradient-to-r group-hover:from-cyan-500 group-hover:to-blue-500 transition-all">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-cyan-400"
+                  className="h-8 w-8 text-blue-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -360,33 +359,30 @@ function LandingPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 12l2 2 4-4"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-shadow-sm">
+              <h3 className="text-2xl font-semibold mb-2 text-blue-200">
                 Downloadable Reports
               </h3>
-              <p className="text-gray-300 text-shadow-sm">
-                Offers downloadable PDF/CSV reports for audit and compliance
-                purposes.
+              <p className="text-gray-300">
+                Downloadable PDF/CSV reports for audits and compliance.
               </p>
-            </div>
+            </motion.div>
 
-            {/* Service 6 */}
-            <div
+            {/* Service 6: SQLMap & Nmap Integration */}
+            <motion.div
               id="service-6"
-              className={`bg-white/10 dark:bg-gray-900/70 backdrop-blur-md rounded-lg p-6 border border-gray-800 hover:border-cyan-500/30 transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/30 group animate-on-scroll ${
-                animatedElements["service-6"]
-                  ? "animate-fade-in-up"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: "300ms" }}
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={{ delay: 1.2 }}
+              className="bg-gradient-to-br from-gray-800/30 to-gray-900/20 backdrop-blur-md p-6 rounded-lg border border-gray-700/50 shadow-md hover:shadow-blue-500/30 transition-all duration-300 hover:scale-105 animate-on-scroll group"
             >
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-4 group-hover:border-2 group-hover:border-gradient-to-r group-hover:from-cyan-500 group-hover:to-blue-500 transition-all">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-cyan-400"
+                  className="h-8 w-8 text-purple-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -395,48 +391,58 @@ function LandingPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 12l2 2 4-4"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m-6 0a2 2 0 00-2-2h-2a2 2 0 00-2 2m2-4h14"
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold mb-2 text-shadow-sm">
+              <h3 className="text-2xl font-semibold mb-2 text-purple-200">
                 SQLMap & Nmap Integration
               </h3>
-              <p className="text-gray-300 text-shadow-sm">
-                Focused on detecting SQL Injection vulnerabilities and Network
-                scanning for open ports and service detection.
+              <p className="text-gray-300">
+                Detect SQL injections and network vulnerabilities with
+                precision.
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
+
       {/* About Section */}
       <section
         id="about"
-        className="py-20 bg-gradient-to-b from-black to-gray-950 text-center"
+        className="py-20 bg-gradient-to-b from-black to-gray-950 text-center relative z-10"
       >
-        <div
+        <motion.div
           id="about-content"
-          className={`max-w-4xl mx-auto px-4 p-6 bg-white/5 dark:bg-gray-900/50 backdrop-blur-sm rounded-lg animate-on-scroll ${
-            animatedElements["about-content"]
-              ? "animate-fade-in-up"
-              : "opacity-0 translate-y-8"
-          }`}
+          initial={fadeInUp.initial}
+          animate={fadeInUp.animate}
+          transition={{ delay: 0.2 }}
+          className="max-w-4xl mx-auto px-4 p-6 bg-white/5 dark:bg-gray-900/50 backdrop-blur-sm rounded-lg shadow-md animate-on-scroll"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-500 animate-gradient-text">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-3xl sm:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 animate-gradient-text"
+          >
             Why Choose ScanSecure?
-          </h2>
-          <p className="text-lg text-gray-300 leading-relaxed">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-lg text-gray-300 leading-relaxed"
+          >
             Our platform blends automation with expert insights to provide you
             with actionable intelligence and real-time protection. We are
             committed to ensuring your applications and networks stay resilient
             in an ever-evolving threat landscape.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </section>
 
       {/* Enhanced Footer */}
-      <footer className="py-12 bg-gray-950/90 backdrop-blur-md text-gray-400">
+      <footer className="py-12 bg-gray-950/90 backdrop-blur-md text-gray-400 relative z-10">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Company Info */}
@@ -450,7 +456,7 @@ function LandingPage() {
               <div className="flex space-x-4 justify-center md:justify-start">
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                  className="text-gray-400 hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -465,7 +471,7 @@ function LandingPage() {
                 </a>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                  className="text-gray-400 hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -480,7 +486,7 @@ function LandingPage() {
                 </a>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                  className="text-gray-400 hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -505,7 +511,7 @@ function LandingPage() {
                 <li>
                   <a
                     href="#"
-                    className="hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                    className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                   >
                     Home
                   </a>
@@ -513,7 +519,7 @@ function LandingPage() {
                 <li>
                   <a
                     href="#services"
-                    className="nav-link hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                    className="nav-link hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                   >
                     Services
                   </a>
@@ -521,7 +527,7 @@ function LandingPage() {
                 <li>
                   <a
                     href="#about"
-                    className="nav-link hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                    className="nav-link hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                   >
                     About
                   </a>
@@ -529,7 +535,7 @@ function LandingPage() {
                 <li>
                   <Link
                     to="#"
-                    className="hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                    className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                   >
                     Contact
                   </Link>
@@ -546,7 +552,7 @@ function LandingPage() {
                 <li>
                   <Link
                     to="#"
-                    className="hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                    className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                   >
                     Vulnerability Scanning
                   </Link>
@@ -554,7 +560,7 @@ function LandingPage() {
                 <li>
                   <Link
                     to="#"
-                    className="hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                    className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                   >
                     Penetration Testing
                   </Link>
@@ -562,7 +568,7 @@ function LandingPage() {
                 <li>
                   <Link
                     to="#"
-                    className="hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                    className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                   >
                     Security Audits
                   </Link>
@@ -570,7 +576,7 @@ function LandingPage() {
                 <li>
                   <Link
                     to="#"
-                    className="hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                    className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                   >
                     Security Consulting
                   </Link>
@@ -590,11 +596,11 @@ function LandingPage() {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="bg-gray-800/80 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-1 focus:ring-cyan-500 flex-grow border-none"
+                  className="bg-gray-800/80 text-white px-4 py-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 flex-grow border-none"
                 />
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 px-4 py-2 rounded-r-md hover:bg-gradient-to-l hover:shadow-md hover:shadow-cyan-500/20 transition-all"
+                  className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-r-lg hover:from-blue-400 hover:to-purple-400 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -622,19 +628,19 @@ function LandingPage() {
             <div className="mt-2 flex justify-center space-x-6 text-sm">
               <a
                 href="#"
-                className="hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
               >
                 Privacy Policy
               </a>
               <a
                 href="#"
-                className="hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
               >
                 Terms of Service
               </a>
               <a
                 href="#"
-                className="hover:text-cyan-500 transition-transform duration-200 hover:scale-105"
+                className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
               >
                 Cookie Policy
               </a>
@@ -646,52 +652,94 @@ function LandingPage() {
   );
 }
 
-// Custom animations
+// Custom animations with Tailwind-compatible keyframes
 const styles = `
+  @keyframes gradient {
+    0% { transform: scaleX(0); transform-origin: left; }
+    50% { transform: scaleX(1); transform-origin: left; }
+    51% { transform-origin: right; }
+    100% { transform: scaleX(0); transform-origin: right; }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes bounceOnce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+  }
   @keyframes gradientText {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
   @keyframes glow {
-    0% { box-shadow: 0 0 5px rgba(6, 182, 212, 0.3); }
-    50% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.5); }
-    100% { box-shadow: 0 0 5px rgba(6, 182, 212, 0.3); }
+    0% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
+    100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); }
   }
-  @keyframes bounceSlow {
+  @keyframes float {
     0% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    50% { transform: translateY(-4px); }
     100% { transform: translateY(0); }
   }
-  @keyframes scan {
+  @keyframes pulseGlow {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scanBg {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 100%; }
+  }
+  @keyframes pulseSlow {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  .animate-gradient {
+    animation: gradient 2s infinite ease-in-out;
+  }
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+  .animate-bounce-once {
+    transition: transform 0.2s ease;
+  }
+  .animate-bounce-once:hover {
+    animation: bounceOnce 0.4s ease;
   }
   .animate-gradient-text {
     background-size: 200% 200%;
     animation: gradientText 4s ease infinite;
   }
-  .animate-fade-in-up {
-    animation: fadeInUp 0.6s ease-out forwards;
-  }
   .animate-glow {
     animation: glow 2s ease-in-out infinite;
   }
-  .animate-bounce-slow {
-    animation: bounceSlow 2s ease-in-out infinite;
+  .animate-float {
+    animation: float 3s infinite ease-in-out;
+  }
+  .animate-pulse-glow {
+    animation: pulseGlow 2s infinite linear;
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+  .animate-scan-bg {
+    animation: scanBg 10s infinite linear;
+  }
+  .animate-pulse-slow {
+    animation: pulseSlow 6s infinite ease-in-out;
   }
   .text-shadow-lg {
-    text-shadow: 0 2px 10px rgba(6, 182, 212, 0.5);
+    text-shadow: 0 2px 10px rgba(59, 130, 246, 0.5);
   }
   .text-shadow-sm {
-    text-shadow: 0 1px 4px rgba(6, 182, 212, 0.3);
-  }
-  .animate-scan {
-    animation: scan 2s infinite linear;
+    text-shadow: 0 1px 4px rgba(59, 130, 246, 0.3);
   }
 `;
 

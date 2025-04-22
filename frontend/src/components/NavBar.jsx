@@ -1,13 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import {
-  FaUser,
-  FaBell,
-  FaCog,
-  FaSignOutAlt,
-  FaSun,
-  FaMoon,
-} from "react-icons/fa";
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -16,15 +9,10 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
-  const [isDark, setIsDark] = useState(
-    localStorage.getItem("theme") === "dark"
-  ); // Theme state
   const navbarRef = useRef(null);
   const profileRef = useRef(null);
-  const notificationsRef = useRef(null);
 
   // Handle scroll events with debouncing
   useEffect(() => {
@@ -52,23 +40,10 @@ function Navbar() {
     };
   }
 
-  // Dark mode toggle effect
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      html.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [isDark]);
-
   const handleLogout = () => {
     localStorage.clear();
     setMobileMenuOpen(false);
     setProfileDropdownOpen(false);
-    setNotificationsOpen(false);
     navigate("/login");
   };
 
@@ -80,13 +55,10 @@ function Navbar() {
       navbarRef.current &&
       !navbarRef.current.contains(event.target) &&
       profileRef.current &&
-      !profileRef.current.contains(event.target) &&
-      notificationsRef.current &&
-      !notificationsRef.current.contains(event.target)
+      !profileRef.current.contains(event.target)
     ) {
       setMobileMenuOpen(false);
       setProfileDropdownOpen(false);
-      setNotificationsOpen(false);
     }
   };
 
@@ -141,18 +113,6 @@ function Navbar() {
           </span>
         </Link>
 
-        {/* Search Bar (Commented out as per your code) */}
-        {/* {token && (
-          <div className="hidden md:block w-1/3">
-            <input
-              type="text"
-              placeholder="Search URLs or scans..."
-              className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition"
-              aria-label="Search scans"
-            />
-          </div>
-        )} */}
-
         {/* Mobile Menu Button */}
         <button
           className="md:hidden z-20 focus:outline-none focus:ring-2 focus:ring-blue-500 p-2 rounded-full bg-white/50 dark:bg-gray-900/50 backdrop-blur-md transition-all duration-300"
@@ -206,6 +166,18 @@ function Navbar() {
           ) : (
             <>
               <Link
+                to="/home"
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-transform hover:scale-105 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 relative group ${
+                  isActive("/home") ? "text-blue-500 dark:text-purple-400" : ""
+                }`}
+                aria-current={isActive("/home") ? "page" : undefined}
+              >
+                Home
+                {isActive("/home") && (
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 animate-gradient"></span>
+                )}
+              </Link>
+              <Link
                 to="/dashboard"
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-transform hover:scale-105 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 relative group ${
                   isActive("/dashboard")
@@ -219,50 +191,6 @@ function Navbar() {
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 animate-gradient"></span>
                 )}
               </Link>
-              <Link
-                to="/home"
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-transform hover:scale-105 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 relative group ${
-                  isActive("/home") ? "text-blue-500 dark:text-purple-400" : ""
-                }`}
-                aria-current={isActive("/home") ? "page" : undefined}
-              >
-                Home
-                {isActive("/home") && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 animate-gradient"></span>
-                )}
-              </Link>
-
-              {/* Notifications */}
-              <div className="relative" ref={notificationsRef}>
-                <button
-                  onClick={() => setNotificationsOpen(!notificationsOpen)}
-                  className="p-2 text-gray-600 dark:text-gray-300 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 relative group"
-                  aria-label="Notifications"
-                  aria-expanded={notificationsOpen}
-                >
-                  <FaBell className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-                  <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full animate-pulse"></span>
-                  <span className="absolute inset-0 rounded-full bg-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-glow"></span>
-                </button>
-                {notificationsOpen && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white/60 dark:bg-gray-900/60 border border-gray-300/50 dark:border-gray-700/50 rounded-lg shadow-lg py-2 backdrop-blur-lg z-20 animate-scale-in">
-                    <h3 className="px-4 py-2 text-sm font-semibold text-cyan-400 border-b border-gray-700">
-                      Notifications
-                    </h3>
-                    <ul className="text-sm text-gray-400">
-                      <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-                        New scan completed for example.com
-                      </li>
-                      <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-                        High severity vulnerability detected
-                      </li>
-                      <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-                        System update available
-                      </li>
-                    </ul>
-                  </div>
-                )}
-              </div>
 
               {/* Profile Dropdown */}
               <div className="relative" ref={profileRef}>
@@ -300,20 +228,6 @@ function Navbar() {
                   </div>
                 )}
               </div>
-
-              {/* Theme Toggle */}
-              <button
-                onClick={() => setIsDark(!isDark)}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 relative group"
-                aria-label="Toggle dark mode"
-              >
-                {isDark ? (
-                  <FaSun className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-                ) : (
-                  <FaMoon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-                )}
-                <span className="absolute inset-0 rounded-full bg-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-glow"></span>
-              </button>
             </>
           )}
         </div>
@@ -397,21 +311,6 @@ function Navbar() {
                 >
                   Profile
                   {isActive("/profile") && (
-                    <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 animate-gradient"></span>
-                  )}
-                </Link>
-                <Link
-                  to="/notifications"
-                  className={`px-6 py-3 text-lg font-medium transition-all relative ${
-                    isActive("/notifications")
-                      ? "text-blue-500 dark:text-purple-400"
-                      : "text-gray-300"
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  aria-current={isActive("/notifications") ? "page" : undefined}
-                >
-                  Notifications
-                  {isActive("/notifications") && (
                     <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 animate-gradient"></span>
                   )}
                 </Link>

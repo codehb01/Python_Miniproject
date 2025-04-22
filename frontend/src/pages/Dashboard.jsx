@@ -141,8 +141,46 @@ function Dashboard() {
         </h1>
 
         {loading ? (
-          <div className="text-center text-gray-300 text-lg animate-pulse">
-            🔄 Loading scan data...
+          <div className="space-y-12">
+            {/* Skeleton for Summary Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="p-6 bg-gray-800/50 border border-gray-700/50 rounded-2xl animate-pulse h-28"
+                ></div>
+              ))}
+            </div>
+
+            {/* Skeleton for Filters */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="p-3 bg-gray-800/50 border border-gray-700/50 rounded-xl animate-pulse w-full sm:w-1/3 h-12"
+                ></div>
+              ))}
+            </div>
+
+            {/* Skeleton for Charts */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {Array.from({ length: 2 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="p-6 bg-gray-800/50 border border-gray-700/50 rounded-2xl animate-pulse h-96"
+                ></div>
+              ))}
+            </div>
+
+            {/* Skeleton for Scan Results */}
+            <div className="mt-12 space-y-6">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="p-4 bg-gray-800/50 border border-gray-700/50 rounded-xl animate-pulse h-20"
+                ></div>
+              ))}
+            </div>
           </div>
         ) : error ? (
           <div className="text-center text-red-400 font-medium text-lg">
