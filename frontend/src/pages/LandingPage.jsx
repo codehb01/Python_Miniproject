@@ -367,7 +367,7 @@ function LandingPage() {
                 Downloadable Reports
               </h3>
               <p className="text-gray-300">
-                Downloadable PDF/CSV reports for audits and compliance.
+                Downloadable PDF reports for audits and compliance.
               </p>
             </motion.div>
 
@@ -451,7 +451,7 @@ function LandingPage() {
                 ScanSecure
               </h3>
               <p className="mb-4 text-gray-200">
-                Protecting digital infrastructure since 2020.
+                Protecting digital infrastructure for everyone
               </p>
               <div className="flex space-x-4 justify-center md:justify-start">
                 <a
@@ -510,7 +510,7 @@ function LandingPage() {
               <ul className="space-y-2">
                 <li>
                   <a
-                    href="#"
+                    href="/home"
                     className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                   >
                     Home
@@ -518,28 +518,13 @@ function LandingPage() {
                 </li>
                 <li>
                   <a
-                    href="#services"
+                    href="/dashboard"
                     className="nav-link hover:text-blue-500 transition-transform duration-200 hover:scale-105"
                   >
-                    Services
+                    Dashboard
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="#about"
-                    className="nav-link hover:text-blue-500 transition-transform duration-200 hover:scale-105"
-                  >
-                    About
-                  </a>
-                </li>
-                <li>
-                  <Link
-                    to="#"
-                    className="hover:text-blue-500 transition-transform duration-200 hover:scale-105"
-                  >
-                    Contact
-                  </Link>
-                </li>
+                
               </ul>
             </div>
 
