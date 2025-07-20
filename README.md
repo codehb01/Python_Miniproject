@@ -66,12 +66,12 @@
    - Delete outdated scans
 
 ## 🔮 Future Scope
-- [ ] **Scheduled Scans**: Automate recurring security checks
-- [ ] **CVE Integration**: Real-time vulnerability intelligence feeds
-- [ ] **Mobile Application**: iOS/Android companion app
-- [ ] **Dark Web Monitoring**: Alert when credentials appear in breaches
-- [ ] **Compliance Reporting**: GDPR/HIPAA/PCI-DSS templates
-- [ ] **Vulnerability Trends**: Predictive threat analytics
+-  **Scheduled Scans**: Automate recurring security checks
+-  **CVE Integration**: Real-time vulnerability intelligence feeds
+-  **Mobile Application**: iOS/Android companion app
+-  **Dark Web Monitoring**: Alert when credentials appear in breaches
+-  **Compliance Reporting**: GDPR/HIPAA/PCI-DSS templates
+-  **Vulnerability Trends**: Predictive threat analytics
 
 ## 👥 Contributors
 - **[Harshal Bhosale](https://github.com/codehb01)**  
